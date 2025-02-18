@@ -1,13 +1,14 @@
-package com.example.notestakingapp.ui.fragments
+package com.example.notesapp.ui.fragments
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.notesapp.ui.viewmodel.AddNoteViewModel
 import com.example.notestakingapp.R
-import com.example.notestakingapp.ui.viewmodel.AddNoteViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_add_note.*
 
 @AndroidEntryPoint
 class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
@@ -25,7 +26,7 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         // Observe error messages
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             error?.let {
-                showError(it.toString())
+                showError(it)
                 viewModel.clearError() // Clear error after showing
             }
         }

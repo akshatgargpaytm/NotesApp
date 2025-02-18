@@ -1,25 +1,37 @@
 package com.example.notestakingapp.ui.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.notestakingapp.data.local.entity.NoteEntity
-import com.example.notestakingapp.data.repository.NoteRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.example.notestakingapp.R
+import com.example.notestakingapp.ui.viewmodel.NoteListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-@HiltViewModel
-class NoteViewModel @Inject constructor(
-    private val repository: NoteRepository
-) : ViewModel(){
-    val notes = repository.getAllNotes()
-    fun addNote(note: NoteEntity) = viewModelScope.launch{
-        repository.insertNote(note)
-    }
-    fun deleteNote(note: NoteEntity) = viewModelScope.launch{
-        repository.deleteNote(note)
-    }
-    fun syncNotes() = viewModelScope.launch{
-        repository.syncNotes()
+@AndroidEntryPoint
+class NoteListFragment : Fragment(R.layout.fragment_note_list) {
+
+    private val viewModel: NoteListViewModel by viewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Observe notes
+        viewModel.notes.observe(viewLifecycleOwner) { notes ->
+            // Update RecyclerView adapter here
+        }
+
+        // Observe loading state
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                // Show loading spinner
+            } else {
+                // Hide loading spinner
+            }
+        }
+
+        // Trigger sync
+        viewModel.syncNotes()
     }
 }
