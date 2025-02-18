@@ -2,12 +2,15 @@ package com.example.notestakingapp.ui.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.notestakingapp.R
 import com.example.notestakingapp.ui.viewmodel.AddNoteViewModel
+import com.example.notestakingapp.R
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
@@ -25,7 +28,7 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         // Observe error messages
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             error?.let {
-                showError(it.toString())
+                showError(it)
                 viewModel.clearError() // Clear error after showing
             }
         }
@@ -35,9 +38,13 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
             if (isSuccess) showSuccess("Note added successfully!")
         }
 
+        val btnAddNote = view.findViewById<Button>(R.id.btnAddNote)
+
         // Handle note submission
         btnAddNote.setOnClickListener {
+            val edtTitle = view.findViewById<EditText>(R.id.edtTitle)
             val title = edtTitle.text.toString()
+            val edtContent = view.findViewById<EditText>(R.id.edtContent)
             val content = edtContent.text.toString()
             viewModel.addNote(title, content)
         }

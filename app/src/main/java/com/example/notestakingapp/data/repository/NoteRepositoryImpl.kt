@@ -49,5 +49,9 @@ class NoteRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getNoteById(noteId: Int): NoteEntity? {
+        TODO("Not yet implemented")
+    }
+
 
 }

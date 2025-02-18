@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     kotlin("kapt")
     id("com.google.devtools.ksp")
-
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -46,6 +46,13 @@ android {
 }
 
 dependencies {
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    implementation("com.google.dagger:hilt-android:2.50")
+    kapt("com.google.dagger:hilt-compiler:2.50")
+    implementation("androidx.hilt:hilt-navigation-fragment:1.1.0")
+
+
     implementation(libs.androidx.fragment.ktx)
     // Core Libraries
     implementation (libs.androidx.core.ktx.v1120)
@@ -55,6 +62,8 @@ dependencies {
     implementation (libs.dagger)
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.common.jvm)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     kapt(libs.dagger.compiler.v252)
     // Room (Local Database)
     implementation (libs.androidx.room.runtime)

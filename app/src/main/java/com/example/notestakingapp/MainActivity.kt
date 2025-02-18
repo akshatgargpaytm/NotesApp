@@ -6,24 +6,41 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            NotesTakingAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) {
 
-                    )
-                }
-            }
+        setContent {
+            NotesApp()
         }
     }
+}
+
+@Composable
+fun NotesApp() {
+    Scaffold { paddingValues ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Text(text = "Hello, Notes App!")
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewNotesApp() {
+    NotesApp()
 }
