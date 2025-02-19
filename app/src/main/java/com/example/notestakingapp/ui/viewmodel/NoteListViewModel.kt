@@ -1,4 +1,4 @@
-package com.example.notestakingapp.ui.viewmodel
+package com.example.notesapp.ui.viewmodel
 
 import androidx.lifecycle.*
 import com.example.notestakingapp.data.local.entity.NoteEntity

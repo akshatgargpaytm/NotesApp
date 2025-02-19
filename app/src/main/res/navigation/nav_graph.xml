@@ -4,25 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/noteListFragment">
 
+    <!-- Notes List Fragment -->
     <fragment
         android:id="@+id/noteListFragment"
         android:name="com.example.notestakingapp.ui.fragments.NoteListFragment"
         android:label="Notes"
         tools:layout="@layout/fragment_note_list">
         <action
-            android:id="@+id/action_noteList_to_addNote"
+            android:id="@+id/action_noteListFragment_to_addNoteFragment"
             app:destination="@id/addNoteFragment"/>
         <action
-            android:id="@+id/action_noteList_to_detail"
+            android:id="@+id/action_noteListFragment_to_noteDetailFragment"
             app:destination="@id/noteDetailFragment"/>
     </fragment>
 
+    <!-- Add Note Fragment -->
     <fragment
         android:id="@+id/addNoteFragment"
         android:name="com.example.notestakingapp.ui.fragments.AddNoteFragment"
         android:label="Add Note"
         tools:layout="@layout/fragment_add_note"/>
 
+    <!-- Note Detail Fragment -->
     <fragment
         android:id="@+id/noteDetailFragment"
         android:name="com.example.notestakingapp.ui.fragments.NoteDetailFragment"

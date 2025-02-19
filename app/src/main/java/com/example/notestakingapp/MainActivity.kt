@@ -18,29 +18,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        setContent {
-            NotesApp()
-        }
+        setContentView(R.layout.activity_main)
     }
-}
-
-@Composable
-fun NotesApp() {
-    Scaffold { paddingValues ->
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Text(text = "Hello, Notes App!")
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewNotesApp() {
-    NotesApp()
 }
