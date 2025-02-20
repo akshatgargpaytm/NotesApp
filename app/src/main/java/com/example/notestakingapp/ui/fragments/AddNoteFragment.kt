@@ -2,6 +2,7 @@ package com.example.notestakingapp.ui.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -11,29 +12,37 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.notesapp.ui.viewmodel.AddNoteViewModel
 import com.example.notestakingapp.R
+import com.example.notestakingapp.ui.viewmodel.AddNoteViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
-
+import java.io.FileOutputStream
+import java.io.InputStream
 
 @AndroidEntryPoint
 class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
 
     private val viewModel: AddNoteViewModel by viewModels()
     private val PICK_IMAGE_REQUEST = 1
-
+    private var imageFile: File? = null
+    private var newNoteId: Int? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val btnSelectImage: Button = view.findViewById(R.id.btnSelectImage)
         val progressBar: ProgressBar = view.findViewById(R.id.progressBar)
         val statusText: TextView = view.findViewById(R.id.statusText)
+        val btnAddNote: Button = view.findViewById(R.id.btnAddNote)
+        val edtTitle: EditText = view.findViewById(R.id.edtTitle)
+        val edtContent: EditText = view.findViewById(R.id.edtContent)
 
-        btnSelectImage.setOnClickListener {
-            openGallery()
-        }
+        btnSelectImage.setOnClickListener { openGallery() }
 
+        // Observe image upload status
         viewModel.uploadStatus.observe(viewLifecycleOwner) { status ->
             progressBar.visibility = if (status == "Uploading...") View.VISIBLE else View.GONE
             statusText.text = status
@@ -48,7 +57,7 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             error?.let {
                 showError(it)
-                viewModel.clearError() // Clear error after showing
+                viewModel.clearError()
             }
         }
 
@@ -57,15 +66,20 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
             if (isSuccess) showSuccess("Note added successfully!")
         }
 
-        val btnAddNote = view.findViewById<Button>(R.id.btnAddNote)
-
         // Handle note submission
         btnAddNote.setOnClickListener {
-            val edtTitle = view.findViewById<EditText>(R.id.edtTitle)
             val title = edtTitle.text.toString()
-            val edtContent = view.findViewById<EditText>(R.id.edtContent)
             val content = edtContent.text.toString()
+
+            // 1. Add the note to the database
             viewModel.addNote(title, content)
+
+            // 2. Upload the image if selected (after note insertion)
+            newNoteId?.let { noteId ->
+                imageFile?.let { file ->
+                    viewModel.uploadImage(file, noteId)
+                }
+            }
         }
     }
 
@@ -84,6 +98,7 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
     private fun showSuccess(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
+
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
@@ -96,9 +111,21 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             data?.data?.let { uri ->
-                val file = File(requireContext().cacheDir, "upload.jpg")
-                viewModel.uploadImage(file)
+                // Convert the image URI to a File
+                imageFile = uriToFile(uri)
+                Toast.makeText(requireContext(), "Image selected: ${imageFile?.name}", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun uriToFile(uri: Uri): File {
+        val inputStream: InputStream? = requireContext().contentResolver.openInputStream(uri)
+        val file = File(requireContext().cacheDir, "upload.jpg")
+        inputStream?.use { input ->
+            FileOutputStream(file).use { output ->
+                input.copyTo(output)
+            }
+        }
+        return file
     }
 }

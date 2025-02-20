@@ -1,6 +1,7 @@
 package com.example.notestakingapp.ui.viewmodel
 
 import androidx.lifecycle.*
+import  android.util.Log
 import com.example.notestakingapp.data.local.entity.NoteEntity
 import com.example.notestakingapp.data.repository.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,6 +12,11 @@ import javax.inject.Inject
 class NoteListViewModel @Inject constructor(
     private val repository: NoteRepository
 ) : ViewModel() {
+
+    init {
+        Log.d("DI_SUCCESS","NoteRepository injected successfully!")
+    }
+
 
     // LiveData for notes
     val notes: LiveData<List<NoteEntity>> = repository.getAllNotes().asLiveData()

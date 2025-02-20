@@ -5,6 +5,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.Response
+import okhttp3.ResponseBody
 
 
 
@@ -13,8 +14,5 @@ interface ImageApiService {
     @POST("/upload")
     suspend fun uploadImage(
         @Part image: MultipartBody.Part
-    ): Response<ImageUploadResponse>
+    ): Response<ResponseBody>
 }
-data class ImageUploadResponse(
-    val imageUrl: String
-)

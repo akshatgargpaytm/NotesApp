@@ -8,9 +8,16 @@ plugins {
 }
 
 android {
-    viewBinding{
-        enable = true
+
+    packagingOptions {
+        exclude("META-INF/INDEX.LIST")
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/io.netty.versions.properties")
+        // Exclude all INDEX.LIST files
+        // OR, if you need to merge them (less common):
+        // merge 'META-INF/INDEX.LIST'
     }
+
     namespace = "com.example.notestakingapp"
     compileSdk = 35
 
@@ -42,6 +49,9 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
+        //noinspection DataBindingWithoutKapt
+        dataBinding = true
     }
 }
 
@@ -53,6 +63,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     implementation(libs.hilt.android.v250)
+    implementation(libs.androidx.espresso.core)
+    implementation(libs.firebase.appdistribution.gradle)
     kapt(libs.hilt.compiler.v250)
     implementation(libs.androidx.hilt.navigation.fragment)
 

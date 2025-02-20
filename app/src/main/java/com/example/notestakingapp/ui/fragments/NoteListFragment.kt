@@ -5,8 +5,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.notesapp.ui.viewmodel.NoteListViewModel
 import com.example.notestakingapp.R
+import com.example.notestakingapp.ui.viewmodel.NoteListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

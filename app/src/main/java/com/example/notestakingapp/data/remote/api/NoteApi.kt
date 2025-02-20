@@ -1,20 +1,36 @@
 package com.example.notestakingapp.data.remote.api
 
 import com.example.notestakingapp.data.local.entity.NoteEntity
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
+import com.example.notestakingapp.data.remote.model.UploadResponse
+import okhttp3.MultipartBody
+import retrofit2.Response
+import retrofit2.http.*
 
-interface NoteApi{
+interface NoteApi {
+
+    // Fetch all notes
     @GET("/notes")
-    suspend fun getNotes(): List<NoteEntity>
+    suspend fun getNotes(): Response<List<NoteEntity>>
+
+    // Create a new note
     @POST("/notes")
-    suspend fun createNote(@Body note: NoteEntity)
+    suspend fun createNote(@Body note: NoteEntity): Response<NoteEntity>
+
+    // Update an existing note by ID
     @PUT("/notes/{id}")
-    suspend fun updateNote(@Path("id") id: Int, @Body note: NoteEntity)
+    suspend fun updateNote(
+        @Path("id") id: Int,
+        @Body note: NoteEntity
+    ): Response<NoteEntity>
+
+    // Delete a note by ID (No body for DELETE method)
     @DELETE("/notes/{id}")
-    suspend fun deleteNote(@Path("id") id: Int, note: NoteEntity)
+    suspend fun deleteNote(@Path("id") id: Int): Response<Unit>
+
+    // Upload an image (Returns structured response)
+    @Multipart
+    @POST("/upload")
+    suspend fun uploadImage(
+        @Part image: MultipartBody.Part
+    ): Response<UploadResponse>
 }

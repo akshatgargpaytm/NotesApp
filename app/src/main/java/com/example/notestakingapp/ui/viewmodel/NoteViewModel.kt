@@ -5,13 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.notestakingapp.data.local.entity.NoteEntity
 import com.example.notestakingapp.data.repository.NoteRepository
-import android.view.View
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
-import com.example.notesapp.ui.viewmodel.NoteListViewModel
-import com.example.notestakingapp.R
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
