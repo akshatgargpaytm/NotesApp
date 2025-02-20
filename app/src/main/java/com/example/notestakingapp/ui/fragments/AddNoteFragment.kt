@@ -11,7 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.notestakingapp.ui.viewmodel.AddNoteViewModel
+import com.example.notesapp.ui.viewmodel.AddNoteViewModel
 import com.example.notestakingapp.R
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File

@@ -1,5 +1,6 @@
 package com.example.notestakingapp.data.repository
 
+import android.provider.ContactsContract.CommonDataKinds.Note
 import com.example.notestakingapp.data.local.dao.NoteDao
 import com.example.notestakingapp.data.local.entity.NoteEntity
 import com.example.notestakingapp.data.remote.api.NoteApi
@@ -50,8 +51,6 @@ class NoteRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getNoteById(noteId: Int): NoteEntity? {
-        TODO("Not yet implemented")
+        return noteDao.getNoteById(noteId)
     }
-
-
 }

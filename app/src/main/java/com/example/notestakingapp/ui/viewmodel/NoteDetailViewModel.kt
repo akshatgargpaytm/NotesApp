@@ -51,4 +51,5 @@ class NoteDetailViewModel @Inject constructor(
             _isLoading.value = false
         }
     }
+
 }
