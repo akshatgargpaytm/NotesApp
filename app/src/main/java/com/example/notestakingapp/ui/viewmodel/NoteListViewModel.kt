@@ -1,7 +1,7 @@
 package com.example.notestakingapp.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
-import  android.util.Log
 import com.example.notestakingapp.data.local.entity.NoteEntity
 import com.example.notestakingapp.data.repository.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,11 +14,10 @@ class NoteListViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        Log.d("DI_SUCCESS","NoteRepository injected successfully!")
+        Log.d("DI_SUCCESS", "NoteRepository injected successfully!")
     }
 
-
-    // LiveData for notes
+    // LiveData for notes from the Room database via Flow
     val notes: LiveData<List<NoteEntity>> = repository.getAllNotes().asLiveData()
 
     // State: Loading, Error, Success
@@ -31,7 +30,7 @@ class NoteListViewModel @Inject constructor(
     private val _isSuccess = MutableLiveData<Boolean>()
     val isSuccess: LiveData<Boolean> get() = _isSuccess
 
-    // Sync notes from remote
+    // Sync notes from remote (if applicable)
     fun syncNotes() {
         viewModelScope.launch {
             _isLoading.value = true

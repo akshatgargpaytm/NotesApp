@@ -3,8 +3,8 @@ package com.example.notestakingapp.ui.viewmodel
 import androidx.lifecycle.*
 import com.example.notestakingapp.data.local.entity.NoteEntity
 import com.example.notestakingapp.data.repository.NoteRepository
-
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,43 +13,56 @@ class NoteDetailViewModel @Inject constructor(
     private val repository: NoteRepository
 ) : ViewModel() {
 
-    // Note object to display
     private val _note = MutableLiveData<NoteEntity?>()
-    val note: MutableLiveData<NoteEntity?> get() = _note
+    val note: LiveData<NoteEntity?> get() = _note
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    // Set loading state while performing operations
+    // ✅ Load Note from Database
     fun loadNote(noteId: Int) {
-        viewModelScope.launch {
-            _isLoading.value = true
+        viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.postValue(true)
             try {
-                val note = repository.getNoteById(noteId)
-                _note.postValue(note)
+                val loadedNote = repository.getNoteById(noteId)
+                _note.postValue(loadedNote)
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
-                _isLoading.value = false
+                _isLoading.postValue(false)
             }
         }
     }
 
+    // ✅ Update Note on Background Thread
     fun updateNote(updatedNote: NoteEntity) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            repository.updateNote(updatedNote)
-            _note.postValue(updatedNote)
-            _isLoading.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.postValue(true)
+            try {
+                repository.updateNote(updatedNote)
+                _note.postValue(updatedNote) // Update UI after saving
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                _isLoading.postValue(false)
+            }
         }
     }
 
+    // ✅ Delete Note on Background Thread
     fun deleteNote(noteId: Int) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            note.value?.let { repository.deleteNote(it) }
-            _isLoading.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.postValue(true)
+            try {
+                val noteToDelete = _note.value
+                if (noteToDelete != null) {
+                    repository.deleteNote(noteToDelete)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                _isLoading.postValue(false)
+            }
         }
     }
-
 }

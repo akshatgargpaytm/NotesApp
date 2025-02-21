@@ -52,21 +52,19 @@ class NoteRepositoryImpl @Inject constructor(
     override suspend fun syncNotes() {
         try {
             val response = noteApi.getNotes() // Fetch from remote API
-
             if (response.isSuccessful) {
                 response.body()?.let { remoteNotes ->
-                    noteDao.insertNotes(remoteNotes) // ✅ Insert only the list
+                    noteDao.insertNotes(remoteNotes) // Insert the list
                 }
             } else {
                 println("Error syncing notes: ${response.errorBody()?.string()}")
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     override suspend fun getNoteById(noteId: Int): NoteEntity? {
-        return noteDao.getNoteById(noteId) // Fetch note by ID
+        return noteDao.getNoteById(noteId)
     }
 }

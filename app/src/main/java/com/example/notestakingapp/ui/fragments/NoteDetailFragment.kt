@@ -16,9 +16,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NoteDetailFragment : Fragment() {
     private var _binding: FragmentNoteDetailBinding? = null
-    private val binding get() = _binding!! // Safe access to binding
+    private val binding get() = _binding!!
 
     private val viewModel: NoteDetailViewModel by viewModels()
+    private var noteId: Int = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,62 +32,54 @@ class NoteDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val progressBar = binding.progressBar
-
-        // Observe loading state and toggle ProgressBar
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        }
-
-        // Load note details
-        val noteId = arguments?.getInt("noteId", -1) ?: -1
-
-        if(noteId == -1){ //Invalid noteId
+        noteId = arguments?.getInt("noteId", -1) ?: -1
+        if (noteId == -1) {
             Toast.makeText(requireContext(), "Error: Note not found", Toast.LENGTH_SHORT).show()
-            findNavController().popBackStack() //Navigate back
+            findNavController().popBackStack()
             return
         }
+
+        // ✅ Load the Note
         viewModel.loadNote(noteId)
 
-
-        binding.btnDeleteNote.setOnClickListener {
-            if (noteId <= 0) { // Prevent deletion of invalid notes
-                Toast.makeText(requireContext(), "Error: Cannot delete note", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+        // ✅ Observe the Note Data
+        viewModel.note.observe(viewLifecycleOwner) { note ->
+            if (note != null) {
+                binding.etTitle.setText(note.title)
+                binding.etContent.setText(note.content)
             }
-            viewModel.deleteNote(noteId)
-            Toast.makeText(requireContext(), "Note Deleted", Toast.LENGTH_SHORT).show()
-            findNavController().popBackStack() // Navigate back after deleting
         }
 
+        // ✅ Observe Loading State
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        // ✅ Update Note
         binding.btnEditNote.setOnClickListener {
             val updatedTitle = binding.etTitle.text.toString().trim()
             val updatedContent = binding.etContent.text.toString().trim()
 
-            if(noteId<=0){ //Invalid noteId
-                Toast.makeText(requireContext(), "Error: Cannot update note", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            if(updatedTitle.isEmpty() || updatedContent.isEmpty()){
+            if (updatedTitle.isEmpty() || updatedContent.isEmpty()) {
                 Toast.makeText(requireContext(), "Title and Content cannot be empty", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+            val updatedNote = NoteEntity(id = noteId, title = updatedTitle, content = updatedContent)
+            viewModel.updateNote(updatedNote)
+            Toast.makeText(requireContext(), "Note Updated", Toast.LENGTH_SHORT).show()
+        }
 
-            viewModel.updateNote(
-                NoteEntity(
-                    id = noteId,
-                    title = updatedTitle,
-                    content = updatedContent
-                )
-            )
-            Toast.makeText(requireContext(),"Note Updated", Toast.LENGTH_SHORT).show()
+        // ✅ Delete Note
+        binding.btnDeleteNote.setOnClickListener {
+            viewModel.deleteNote(noteId)
+            Toast.makeText(requireContext(), "Note Deleted", Toast.LENGTH_SHORT).show()
+            findNavController().popBackStack()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // Prevent memory leaks
+        _binding = null
     }
 }

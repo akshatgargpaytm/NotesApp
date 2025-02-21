@@ -27,8 +27,14 @@
 
     <!-- Note Detail Fragment -->
     <fragment
-        android:id="@+id/noteDetailFragment"
-        android:name="com.example.notestakingapp.ui.fragments.NoteDetailFragment"
-        android:label="Note Detail"
-        tools:layout="@layout/fragment_note_detail"/>
+    android:id="@+id/noteDetailFragment"
+    android:name="com.example.notestakingapp.ui.fragments.NoteDetailFragment"
+    android:label="Note Detail"
+    tools:layout="@layout/fragment_note_detail">
+    <argument
+        android:name="noteId"
+        app:argType="integer"
+        android:defaultValue="-1"/>
+</fragment>
+
 </navigation>

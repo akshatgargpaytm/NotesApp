@@ -1,5 +1,6 @@
 package com.example.notestakingapp.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,7 +8,7 @@ import com.example.notestakingapp.data.local.entity.NoteEntity
 import com.example.notestakingapp.databinding.ItemNoteBinding
 
 class NoteAdapter(
-    private val notes: List<NoteEntity>,
+    private var notes: List<NoteEntity>,
     private val onItemClick: (NoteEntity) -> Unit
 ) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
@@ -29,4 +30,11 @@ class NoteAdapter(
     }
 
     override fun getItemCount(): Int = notes.size
+
+    // New function to update the dataset
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateNotes(newNotes: List<NoteEntity>) {
+        notes = newNotes
+        notifyDataSetChanged()
+    }
 }
