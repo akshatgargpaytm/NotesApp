@@ -5,8 +5,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.notestakingapp.R
 import com.example.notestakingapp.ui.viewmodel.NoteListViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,6 +18,11 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val fab = view.findViewById<FloatingActionButton>(R.id.fabAddNote)
+        fab.setOnClickListener {
+            findNavController().navigate(R.id.action_noteListFragment_to_addNoteFragment)
+        }
 
         // Observe notes and update RecyclerView (Assuming you have a RecyclerView)
         viewModel.notes.observe(viewLifecycleOwner) { notes ->
@@ -46,12 +53,10 @@ class NoteListFragment : Fragment(R.layout.fragment_note_list) {
     }
 
     private fun showLoading() {
-        // Example: Show a ProgressBar
         Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show()
     }
 
     private fun hideLoading() {
-        // Example: Hide a ProgressBar
         Toast.makeText(requireContext(), "Done loading.", Toast.LENGTH_SHORT).show()
     }
 

@@ -44,7 +44,7 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
-    fun deleteNote() {
+    fun deleteNote(noteId: Int) {
         viewModelScope.launch {
             _isLoading.value = true
             note.value?.let { repository.deleteNote(it) }
