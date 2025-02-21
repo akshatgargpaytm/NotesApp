@@ -12,19 +12,21 @@ interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(note: NoteEntity)
 
-    // Accepts List<NoteEntity> instead of Response<List<NoteEntity>>
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNotes(notes: List<NoteEntity>)
+    suspend fun insertNotes(notes: List<NoteEntity>) // ✅ Atomic batch insert
 
     @Query("UPDATE notes SET imageUrl = :imageUrl WHERE id = :noteId")
     suspend fun updateImageUrl(noteId: Int, imageUrl: String)
 
-    @Update
-    suspend fun updateNote(note: NoteEntity)
+    @Query("UPDATE notes SET title = :title, content = :content WHERE id = :id")
+    suspend fun updateNoteFields(id: Int, title: String, content: String) // ✅ Partial update
 
-    @Delete
-    suspend fun deleteNote(note: NoteEntity)
+    @Query("DELETE FROM notes WHERE id = :noteId")
+    suspend fun deleteNoteById(noteId: Int) // ✅ More efficient than @Delete
 
     @Query("SELECT * FROM notes WHERE id = :noteId")
     suspend fun getNoteById(noteId: Int): NoteEntity
+    abstract fun updateNote(note: NoteEntity)
+    abstract fun deleteNote(note: NoteEntity)
 }

@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.notestakingapp.R
@@ -32,7 +33,7 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (activity as? AppCompatActivity)?.supportActionBar?.hide()
         val btnSelectImage: Button = view.findViewById(R.id.btnSelectImage)
         val progressBar: ProgressBar = view.findViewById(R.id.progressBar)
         val statusText: TextView = view.findViewById(R.id.statusText)
@@ -103,6 +104,12 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        // Show Action Bar when leaving this fragment
+        (activity as? AppCompatActivity)?.supportActionBar?.show()
     }
 
     @Deprecated("Deprecated in Java")
