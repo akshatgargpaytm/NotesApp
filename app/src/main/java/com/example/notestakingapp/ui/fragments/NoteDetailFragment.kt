@@ -1,5 +1,6 @@
 package com.example.notestakingapp.ui.fragments
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,11 @@ class NoteDetailFragment : Fragment() {
             if (note != null) {
                 binding.etTitle.setText(note.title)
                 binding.etContent.setText(note.content)
+
+                if(!note.imageUrl.isNullOrEmpty()){
+                    binding.ivNoteImage.visibility = View.VISIBLE
+                    binding.ivNoteImage.setImageURI(Uri.parse(note.imageUrl))
+                }
             }
         }
 

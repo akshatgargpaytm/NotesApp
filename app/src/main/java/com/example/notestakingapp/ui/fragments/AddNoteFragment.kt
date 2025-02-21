@@ -66,11 +66,14 @@ class AddNoteFragment : Fragment(R.layout.fragment_add_note) {
             val content = edtContent.text.toString()
 
             if (title.isNotBlank() && content.isNotBlank()) {
-                viewModel.addNote(title, content)
+                val imageUrlString = imageFile?.toString()
+                //Convert url to string to store
+                viewModel.addNote(title, content, imageUrlString)
                 // Navigate back to the NoteListFragment to refresh the list
                 findNavController().popBackStack()
             } else {
                 Toast.makeText(requireContext(), "Title and Content cannot be empty.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
         }
     }
