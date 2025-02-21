@@ -13,24 +13,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.19" />
+        app:layout_constraintGuide_percent="0.1" />
 
     <!-- Title Label -->
-
-    <!-- Title Input -->
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="Title:"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/etTitle"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.939" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"/>
 
+    <!-- Title Input -->
     <EditText
         android:id="@+id/etTitle"
         android:layout_width="0dp"
@@ -60,27 +57,25 @@
         android:layout_marginTop="16dp"/>
 
     <!-- Content Input -->
-
-    <!-- Buttons Layout -->
     <EditText
         android:id="@+id/etContent"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="16dp"
+        android:textSize="18sp"
+        android:hint="Enter note content"
+        android:padding="8dp"
         android:background="@android:drawable/edit_text"
         android:gravity="top|start"
-        android:hint="Enter note content"
-        android:inputType="textMultiLine"
-        android:padding="8dp"
         android:scrollbars="vertical"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:inputType="textMultiLine"
+        app:layout_constraintTop_toBottomOf="@id/etTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etTitle" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"/>
 
+    <!-- Buttons Layout -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
