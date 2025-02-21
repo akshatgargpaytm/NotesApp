@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.fragments.AddNoteFragment">
 
     <!-- Title Input -->
@@ -16,25 +16,30 @@
         android:hint="Title"
         android:textSize="18sp"
         android:padding="12dp"
-        android:background="@android:drawable/editbox_background"
+        android:background="@android:drawable/edit_text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="12dp"/>
 
     <!-- Content Input -->
     <EditText
         android:id="@+id/edtContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:hint="write_your_note_here"
+        android:hint="Write your note here..."
         android:textSize="16sp"
         android:padding="12dp"
-        android:background="@android:drawable/editbox_background"
-        android:minHeight="120dp"
+        android:background="@android:drawable/edit_text"
+        android:minHeight="150dp"
+        android:gravity="top|start"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/edtTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnSelectImage" />
+        app:layout_constraintBottom_toTopOf="@id/btnSelectImage"
+        android:layout_marginBottom="16dp"/>
 
     <!-- Select Image Button -->
     <Button
@@ -45,7 +50,8 @@
         app:layout_constraintTop_toBottomOf="@id/edtContent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"/>
 
     <!-- Upload Status -->
     <TextView
@@ -78,6 +84,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Save Note"
+        android:textStyle="bold"
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@android:color/white"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
