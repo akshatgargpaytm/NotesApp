@@ -8,50 +8,110 @@
     tools:context=".ui.fragments.NoteDetailFragment"
     tools:ignore="MissingClass">
 
+    <!-- Guideline to structure layout spacing -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" />
+
+    <!-- Title Label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Title Input -->
     <EditText
         android:id="@+id/etTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:hint="Enter title"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
+
+    <!-- Content Label -->
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <EditText
-        android:id="@+id/etContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:text="Content:"
+        android:textSize="16sp"
+        android:textStyle="normal"
         app:layout_constraintTop_toBottomOf="@id/etTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"/>
 
+    <!-- Content Input -->
+    <EditText
+        android:id="@+id/etContent"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:textSize="18sp"
+        android:hint="Enter note content"
+        android:padding="8dp"
+        android:background="@android:drawable/edit_text"
+        android:gravity="top|start"
+        android:scrollbars="vertical"
+        android:inputType="textMultiLine"
+        app:layout_constraintTop_toBottomOf="@id/etTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
+
+    <!-- Edit Button -->
     <Button
         android:id="@+id/btnEditNote"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Edit"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textStyle="bold"
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/etContent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="16dp"  />
+        app:layout_constraintEnd_toStartOf="@id/btnDeleteNote"
+        app:layout_constraintWidth_percent="0.45"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"/>
 
+    <!-- Delete Button -->
     <Button
         android:id="@+id/btnDeleteNote"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Delete"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textStyle="bold"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/etContent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp"  />
+        app:layout_constraintStart_toEndOf="@id/btnEditNote"
+        app:layout_constraintWidth_percent="0.45"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"/>
 
+    <!-- Centered ProgressBar -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintBottom_toBottomOf="@id/etContent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
