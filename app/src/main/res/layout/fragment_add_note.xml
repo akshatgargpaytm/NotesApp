@@ -9,20 +9,22 @@
     tools:context=".ui.fragments.AddNoteFragment">
 
     <!-- Title Input -->
+
+    <!-- Content Input -->
     <EditText
         android:id="@+id/edtTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Title"
-        android:textSize="18sp"
-        android:padding="12dp"
+        android:layout_marginTop="48dp"
         android:background="@android:drawable/edit_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:hint="Title"
+        android:padding="12dp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="12dp"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Content Input -->
     <EditText
         android:id="@+id/edtContent"
         android:layout_width="0dp"
